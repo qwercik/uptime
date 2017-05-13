@@ -8,9 +8,9 @@ Uptime is a simple cross-platform library for C/C++, that lets you get operating
 - Windows
 
 ## Installation
-First you must compile library from sources or use an existing library binary file. You can use CMakeLists.txt script which you are able to find in this repository.
+First you must compile library from sources or use an existing library binary file. You can use CMakeLists.txt script, which you are able to find in this repository.
 
-Then, you can move a content of include directory and file "libuptime.a" to your compiler's and linker's default directories. Otherwise, you will have to add to your projects custom paths with header and library files.
+Then, you can move a content of *uptime/include* and *uptime/lib* directories to your compiler's and linker's default directories. Otherwise, you will have to add to your projects custom paths with header and library files.
 
 ## Usage
 
@@ -26,7 +26,7 @@ int main(void)
 
 Function *getUptime()* takes no arguments and returns an **uint64_t** value - operating system uptime measured in milliseconds.
 
-If you want to compile your project, you should link the library. An example (using GCC):
+If you want to compile your project, you have to link the library. An example (using GCC):
 
 ```bash
 $ gcc -o example example.c -luptime
