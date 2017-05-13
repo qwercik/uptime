@@ -1,7 +1,7 @@
 #include <stdio.h>
-#include <uptime.h>
+#include <uptime/uptime.h>
 
 int main(void)
 {
-    printf("Uptime: %d", getUptime());
+    printf("Uptime: %d\n", getUptime());
 }
