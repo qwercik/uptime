@@ -35,6 +35,6 @@ $ gcc -o example example.c -luptime
 If you haven't installed the library to defaults locations, you have to indicate your custom header and library paths.
  
 ```bash
-$ gcc -o example example.c -L~/uptime/lib -I~/uptime/include -luptime
+$ gcc -o example example.c -L/home/user/uptime/lib -I/home/user/uptime/include -luptime
 ```
 
