@@ -31,3 +31,10 @@ If you want to compile your project, you have to link the library. An example (u
 ```bash
 $ gcc -o example example.c -luptime
 ```
+
+If you haven't installed the library to defaults locations, you have to indicate your custom header and library paths.
+ 
+```bash
+$ gcc -o example example.c -L~/uptime/lib -I~/uptime/include -luptime
+```
+
