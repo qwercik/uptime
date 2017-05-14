@@ -8,6 +8,11 @@
 #error Not supported platform
 #endif
 
+#ifdef _WIN32
+uint64_t getUptimeWindows(void);
+#elif __linux__
+uint64_t getUptimeLinux(void);
+#endif
 
 uint64_t getUptime(void)
 {
