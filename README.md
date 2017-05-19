@@ -17,6 +17,7 @@ Then, you can move a content of *uptime/include* and *uptime/lib* directories to
 
 ```c
 // File: example.c
+#include <stdio.h>
 #include <uptime/uptime.h>
 int main(void)
 {
@@ -33,7 +34,7 @@ If you want to compile your project, you have to link the library. An example (u
 $ gcc -o example example.c -luptime
 ```
 
-If you haven't installed the library to defaults locations, you have to indicate your custom header and library paths.
+If you haven't installed the library to defaults locations, you have to indicate your custom header and library paths. Example:
  
 ```bash
 $ gcc -o example example.c -L/home/user/uptime/lib -I/home/user/uptime/include -luptime
