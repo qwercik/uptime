@@ -7,6 +7,7 @@ Uptime is a simple cross-platform library for C/C++, that lets you get operating
 - Linux
 - Windows
 - FreeBSD
+- OpenBSD
 
 ## Installation
 First you must compile library from sources or use an existing library binary file. You can use CMakeLists.txt script, which you are able to find in this repository.
