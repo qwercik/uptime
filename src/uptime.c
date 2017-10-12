@@ -5,7 +5,7 @@
 #include <windows.h>
 #elif linux || __NetBSD__
 #include <stdio.h>
-#elif __FreeBSD__
+#elif __FreeBSD__ || __APPLE__
 #include <time.h>
 #elif __OpenBSD__
 #include <stdio.h>
@@ -14,6 +14,13 @@
 #else
 #error Not supported platform
 #endif
+
+#ifdef __APPLE__
+#define GETTIME_OPTION CLOCK_MONOTONIC_RAW
+#elif __FreeBSD__
+#define GETTIME_OPTION CLOCK_UPTIME_PRECISE
+#endif
+
 
 #ifdef _WIN32
 static uint64_t getUptimeWindows(void)
@@ -36,12 +43,12 @@ static uint64_t getUptimeByUptimeFile(void)
     return uptime * 1000;
 }
 
-#elif __FreeBSD__
+#elif __FreeBSD__ || __APPLE__
 static uint64_t getUptimeByClockGettime(void)
 {
 	struct timespec time_spec;
 
-	if (clock_gettime(CLOCK_UPTIME_PRECISE, &time_spec) != 0)
+	if (clock_gettime(GETTIME_OPTION, &time_spec) != 0)
 		return 0;
 
 	uint64_t uptime = time_spec.tv_sec * 1000 + time_spec.tv_nsec / 1000000;
@@ -72,7 +79,7 @@ uint64_t getUptime(void)
     return getUptimeWindows();
 #elif __linux__ || __NetBSD__
     return getUptimeByUptimeFile();
-#elif __FreeBSD__
+#elif __FreeBSD__ || __APPLE__
 	return getUptimeByClockGettime();
 #elif __OpenBSD__
 	return getUptimeBySysctl();
