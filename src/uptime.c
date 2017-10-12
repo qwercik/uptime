@@ -3,7 +3,7 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#elif linux
+#elif linux || __NetBSD__
 #include <stdio.h>
 #elif __FreeBSD__
 #include <time.h>
@@ -16,39 +16,13 @@
 #endif
 
 #ifdef _WIN32
-uint64_t getUptimeWindows(void);
-#elif __linux__
-uint64_t getUptimeLinux(void);
-#elif __FreeBSD__
-uint64_t getUptimeFreeBSD(void);
-#elif __OpenBSD__
-uint64_t getUptimeOpenBSD(void);
-#endif
-
-uint64_t getUptime(void)
-{
-#ifdef _WIN32
-    return getUptimeWindows();
-#elif __linux__
-    return getUptimeLinux();
-#elif __FreeBSD__
-	return getUptimeFreeBSD();
-#elif __OpenBSD__
-	return getUptimeOpenBSD();
-#endif
-
-}
-
-#ifdef _WIN32
-
-uint64_t getUptimeWindows(void)
+static uint64_t getUptimeWindows(void)
 {
     return GetTickCount();
 }
 
-#elif __linux__
-
-uint64_t getUptimeLinux(void)
+#elif __linux_ || __NetBSD__
+static uint64_t getUptimeByUptimeFile(void)
 {
     FILE* file = fopen("/proc/uptime", "r");
 
@@ -62,11 +36,8 @@ uint64_t getUptimeLinux(void)
     return uptime * 1000;
 }
 
-#endif
-
-#ifdef __FreeBSD__
-
-uint64_t getUptimeFreeBSD(void)
+#elif __FreeBSD__
+static uint64_t getUptimeByClockGettime(void)
 {
 	struct timespec time_spec;
 
@@ -77,11 +48,8 @@ uint64_t getUptimeFreeBSD(void)
 	return uptime;
 }
 
-#endif
-
-#ifdef __OpenBSD__
-
-uint64_t getUptimeOpenBSD(void)
+#elif __OpenBSD__
+static uint64_t getUptimeBySysctl(void)
 {
 	struct timeval time_val;
 	size_t len = sizeof(time_val);
@@ -96,5 +64,17 @@ uint64_t getUptimeOpenBSD(void)
 	uint64_t uptime = now - boottime;
 	return uptime;
 }
-
 #endif
+
+uint64_t getUptime(void)
+{
+#ifdef _WIN32
+    return getUptimeWindows();
+#elif __linux__ || __NetBSD__
+    return getUptimeByUptimeFile();
+#elif __FreeBSD__
+	return getUptimeByClockGettime();
+#elif __OpenBSD__
+	return getUptimeBySysctl();
+#endif
+}
