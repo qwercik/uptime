@@ -3,5 +3,5 @@
 
 int main(void)
 {
-    printf("Uptime: %d\n", getUptime());
+    printf("Uptime: %lu\n", getUptime());
 }

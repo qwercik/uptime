@@ -3,7 +3,7 @@
 
 #ifdef _WIN32
 #include <windows.h>
-#elif linux || __NetBSD__
+#elif __linux__ || __NetBSD__
 #include <stdio.h>
 #elif __FreeBSD__ || __APPLE__
 #include <time.h>
@@ -28,7 +28,7 @@ static uint64_t getUptimeWindows(void)
     return GetTickCount();
 }
 
-#elif __linux_ || __NetBSD__
+#elif __linux__ || __NetBSD__
 static uint64_t getUptimeByUptimeFile(void)
 {
     FILE* file = fopen("/proc/uptime", "r");
@@ -36,8 +36,8 @@ static uint64_t getUptimeByUptimeFile(void)
     if (file == NULL)
         return 0;
 
-    uint64_t uptime;
-    fscanf(file, "%d", &uptime);
+    double uptime;
+    fscanf(file, "%lf", &uptime);
     fclose(file);
 
     return uptime * 1000;
